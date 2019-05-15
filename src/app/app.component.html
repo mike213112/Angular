@@ -9,28 +9,32 @@
 <div>
   <form id="f01" [formGroup]="formGroup">
     <h2>Datos Personales</h2>
-    
-    <label>nombres:</label>
+
+    <label>nombre:</label>
     <input type="text" formControlName="nombre"/>
 
-    <label>apellidos:</label>
+    <label>apellido:</label>
     <input type="text" formControlName="apellido"/>
 
-    <label>edad:</label>
-    <input type="text" formControlName="edad"/>
+    <label>apodo:</label>
+    <input type="text" formControlName="apodo"/>
+
+    <label>correo:</label>
+    <input type="text" formControlName="correo"/>
 
     <label>direccion:</label>
     <input type="text" formControlName="direccion"/>
 
-    <label>telefono:</label>
-    <input type="text" formControlName="telefono"/>
-
     <button (click)="enviarFormulario()">
-      guardar
+      Guardar
     </button>
 
     <button (click)="actualizarFormulario()">
-      actualizar
+      Actualizar
+    </button>
+
+    <button (click)="MostrarDatos()">
+      Motrar Datos
     </button>
 
   </form>

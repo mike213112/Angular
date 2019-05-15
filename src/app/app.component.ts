@@ -1,6 +1,7 @@
-import {AfterViewInit, Component, OnDestroy, OnInit} from '@angular/core';
-import {PersonaService} from './service/persona.service';
-import {FormControl, FormGroup} from '@angular/forms';
+import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
+import { PersonaService } from './service/persona.service';
+import { NotificationService } from './service/notification.service';
+import { FormControl, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'umg-root',
@@ -13,7 +14,8 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
   // definir "FormGroup" para ingreso de datos por formulario
   public formGroup: FormGroup;
 
-  constructor(private personaService: PersonaService) {
+  constructor(private personaService: PersonaService,
+              private notificationService: NotificationService) {
 
   }
 
@@ -29,11 +31,11 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
     parametros = Object.assign({}, this.formGroup.value);
 
     let datosAEnviar: any = {
-      primerNombre: parametros.nombre,
-      segundoNombre: parametros.apellido,
-      edad: parametros.edad,
-      direccion: parametros.direccion,
-      telefono: parametros.telefono,
+      nombre: parametros.nombre,
+      apellido: parametros.apellido,
+      apodo: parametros.apodo,
+      correo: parametros.correo,
+      direccion: parametros.direccion
     };
 
     console.log('Datos a enviar:' + JSON.stringify(datosAEnviar));
@@ -50,11 +52,11 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
     parametros = Object.assign({}, this.formGroup.value);
 
     let datosAEnviar: any = {
-      primerNombre: parametros.nombre,
-      segundoNombre: parametros.apellido,
-      edad: parametros.edad,
-      direccion: parametros.direccion,
-      telefono: parametros.telefono,
+      nombre: parametros.nombre,
+      apellido: parametros.apellido,
+      apodo: parametros.apodo,
+      correo: parametros.correo,
+      direccion: parametros.direccion
     };
 
     console.log('Datos a enviar:' + JSON.stringify(datosAEnviar));
@@ -62,9 +64,29 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
     this.personaService.update(datosAEnviar).subscribe(result => {
       console.log('Datos from server:' + JSON.stringify(result));
     });
+
   }
 
+  public MostrarDatos(): void {
 
+    let parametros: any = null;
+    parametros = Object.assign({}, this.formGroup.value);
+
+    let datosAEnviar: any = {
+      nombre: parametros.nombre,
+      apellido: parametros.apellido,
+      apodo: parametros.apodo,
+      correo: parametros.correo,
+      direccion: parametros.direccion
+    };
+
+    console.log('Datos a enviar:' + JSON.stringify(datosAEnviar));
+
+    this.personaService.personaList(datosAEnviar).subscribe(result => {
+      console.log('Datos from server:' + JSON.stringify(result));
+    });
+
+  }
 
   private initForm(): void {
     this.formGroup = new FormGroup({
@@ -72,11 +94,11 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
       ),
       apellido: new FormControl('', []
       ),
-      edad: new FormControl('', []
+      apodo: new FormControl('', []
+      ),
+      correo: new FormControl('', []
       ),
       direccion: new FormControl('', []
-      ),
-      telefono: new FormControl('', []
       )
     });
 
