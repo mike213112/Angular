@@ -1,7 +1,8 @@
-  import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
 import { PersonaService } from './service/persona.service';
 import { NotificationService } from './service/notification.service';
 import { FormControl, FormGroup } from '@angular/forms';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'umg-root',
@@ -13,9 +14,12 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
 
   // definir "FormGroup" para ingreso de datos por formulario
   public formGroup: FormGroup;
+  public mySubject = BehaviorSubject<any>;
 
   constructor(private personaService: PersonaService,
               private notificationService: NotificationService) {
+
+        this.mySubject = new BehaviorSubject(null);
 
   }
 
@@ -135,6 +139,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
     this.doNotificationSubscription()
     // iniciar formulario
     this.initForm();
+
 
     // ejecutar llamada de servicio restful al iniciar la aplicacion
     this.personaService
