@@ -14,7 +14,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
 
   // definir "FormGroup" para ingreso de datos por formulario
   public formGroup: FormGroup;
-  public mySubject = BehaviorSubject<any>;
+  public mySubject: BehaviorSubject<any>;
 
   constructor(private personaService: PersonaService,
               private notificationService: NotificationService) {
