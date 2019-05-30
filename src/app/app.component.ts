@@ -12,6 +12,8 @@ import { BehaviorSubject } from 'rxjs';
 export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
   title = 'AngularProyect';
 
+  private mensaje: String = null;
+
   // definir "FormGroup" para ingreso de datos por formulario
   public formGroup: FormGroup;
   public mySubject: BehaviorSubject<any>;
@@ -25,22 +27,6 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
 
   public onClick(): void {
     console.log('on click');
-  }
-
-
-  public doNotificationSubscription(): void{
-
-    try{
-      this.notificationService.getPersonaNotification().subscribe((result) =>{
-        this.handleMessageReceived(result);
-      });
-    } catch(e){
-      console.log(e);
-    }
-  }
-
-  private handleMessageReceived(message: any): void {
-    console.log('Menseje recibido' + JSON.stringify(message));
   }
 
   public enviarFormulario(): void {
@@ -63,7 +49,6 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
       console.log('Datos from server:' + JSON.stringify(result));
     });
   }
-
 
   public actualizarFormulario(): void {
 
@@ -107,6 +92,22 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
 
   }
 
+  public doNotificationSubscription(): void{
+
+    try{
+      this.notificationService.getPersonaNotification().subscribe((result) =>{
+        this.handleMessageReceived(result);
+      });
+    } catch(e){
+      console.log(e);
+    }
+  }
+
+  private handleMessageReceived(message: any): void {
+    console.log('Menseje recibido' + JSON.stringify(message));
+    this.mySubject.next(message);
+  }
+
   private initForm(): void {
     this.formGroup = new FormGroup({
       nombre: new FormControl('', []
@@ -132,14 +133,22 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
     console.log('on destroy');
   }
 
+  public ProcesarSubject(result: any): void {
+    console.log('hacer algo con: ' + JSON.stringify(result));
+    this.mensaje = this.mensaje + '' + JSON.stringify(result);
+  }
+
   ngOnInit(): void {
 
     console.log('on init');
 
-    this.doNotificationSubscription()
+    this.doNotificationSubscription();
     // iniciar formulario
     this.initForm();
 
+    this.mySubject.subscribe(result => {
+      this.ProcesarSubject(result);
+    });
 
     // ejecutar llamada de servicio restful al iniciar la aplicacion
     this.personaService
