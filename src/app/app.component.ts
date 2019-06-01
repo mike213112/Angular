@@ -84,7 +84,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
       direccion: parametros.direccion
     };
 
-    console.log('Datos a enviar:' + JSON.stringify(datosAEnviar));
+    //console.log('Datos a enviar:' + JSON.stringify(datosAEnviar));
 
     this.personaService.personaList(datosAEnviar).subscribe(result => {
       console.log('Datos from server:' + JSON.stringify(result));
